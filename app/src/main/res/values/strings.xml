@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MeliChallenge</string>
+    <string name="list_item_price">$%s</string>
 </resources>

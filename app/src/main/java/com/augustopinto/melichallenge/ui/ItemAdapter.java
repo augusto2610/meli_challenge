@@ -6,8 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.augustopinto.melichallenge.R;
+import com.augustopinto.melichallenge.model.SearchResultItem;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
@@ -17,10 +23,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private Context mContext;
     private ItemClickListener mItemClickListener;
+    private ArrayList<SearchResultItem> mListItems;
 
     public ItemAdapter(Context context, ItemClickListener listener) {
         mContext = context;
         mItemClickListener = listener;
+        mListItems = new ArrayList<>();
+    }
+
+    public void setList(ArrayList<SearchResultItem> list) {
+        mListItems.clear();
+        mListItems.addAll(list);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -31,33 +45,39 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mItemClickListener.onItemClicked();
+                mItemClickListener.onItemClicked(mListItems.get(viewHolder.getAdapterPosition()).id);
             }
         });
-        //todo set on click listener.
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        SearchResultItem item = mListItems.get(viewHolder.getAdapterPosition());
+        Picasso.get().load(item.imageUrl).into(viewHolder.mProductImage);
 
+        viewHolder.mProductPrice.setText(mContext.getString(R.string.list_item_price,
+                String.valueOf(item.price)));
+
+        viewHolder.mProductTitle.setText(item.name);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mListItems.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView mProductImage;
+        TextView mProductTitle;
+        TextView mProductPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
-        }
-
-        @Override
-        public void onClick(View v) {
-
+            mProductImage = itemView.findViewById(R.id.productImageView);
+            mProductTitle = itemView.findViewById(R.id.productTitleTextView);
+            mProductPrice = itemView.findViewById(R.id.productPriceTextView);
         }
     }
 
