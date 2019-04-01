@@ -1,6 +1,5 @@
 package com.augustopinto.melichallenge.services;
 
-import android.arch.lifecycle.LiveData;
 
 import com.augustopinto.melichallenge.model.ItemData;
 import com.augustopinto.melichallenge.model.SearchResultItem;
@@ -15,8 +14,8 @@ import retrofit2.http.Query;
 public interface MeLiService {
 
     @GET("/sites/MLU/search?")
-    Call<LiveData<List<SearchResultItem>>> getSearchResult(@Query("q") String key);
+    Call<List<SearchResultItem>> getSearchResult(@Query("q") String key);
 
     @GET("/items/{itemId}")
-    Call<LiveData<ItemData>> getItemDetails(@Path("itemId") String itemId);
+    Call<ItemData> getItemDetails(@Path("itemId") String itemId);
 }
