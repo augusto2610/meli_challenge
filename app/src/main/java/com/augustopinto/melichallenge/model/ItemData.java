@@ -3,8 +3,9 @@ package com.augustopinto.melichallenge.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class SearchResultItem implements Serializable {
+public class ItemData implements Serializable {
 
     @SerializedName("id")
     public String mId;
@@ -15,14 +16,14 @@ public class SearchResultItem implements Serializable {
     @SerializedName("price")
     public double mPrice;
 
-    @SerializedName("thumbnail")
-    public String mImageUrl;
+    @SerializedName("pictures")
+    public List<Picture> mPictures;
 
-    public SearchResultItem(String id, String title, double price, String imageUrl) {
+    public ItemData(String id, String title, double price, List<Picture> pictures) {
         mId = id;
         mTitle = title;
         mPrice = price;
-        mImageUrl = imageUrl;
+        mPictures = pictures;
     }
 
     public String getId() {
@@ -49,11 +50,11 @@ public class SearchResultItem implements Serializable {
         mPrice = price;
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
+    public List<Picture> getPictures() {
+        return mPictures;
     }
 
-    public void setImageUrl(String imageUrl) {
-        mImageUrl = imageUrl;
+    public void setPictures(List<Picture> pictures) {
+        this.mPictures = pictures;
     }
 }

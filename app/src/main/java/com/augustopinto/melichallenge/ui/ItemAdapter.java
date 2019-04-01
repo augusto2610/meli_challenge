@@ -45,7 +45,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.onItemClicked(mListItems.get(viewHolder.getAdapterPosition()).id);
+                mItemClickListener.onItemClicked(mListItems.get(viewHolder.getAdapterPosition()).mId);
             }
         });
         return viewHolder;
@@ -54,12 +54,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         SearchResultItem item = mListItems.get(viewHolder.getAdapterPosition());
-        Picasso.get().load(item.imageUrl).into(viewHolder.mProductImage);
+        Picasso.get().load(item.mImageUrl).into(viewHolder.mProductImage);
 
         viewHolder.mProductPrice.setText(mContext.getString(R.string.list_item_price,
-                String.valueOf(item.price)));
+                String.valueOf(item.mPrice)));
 
-        viewHolder.mProductTitle.setText(item.name);
+        viewHolder.mProductTitle.setText(item.mTitle);
     }
 
     @Override
