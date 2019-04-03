@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- List item styles -->
+    <style name="ListItemTitleStyle">
+        <item name="android:textSize">@dimen/list_item_title_text_size</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginStart">@dimen/list_item_margin_large</item>
+        <item name="android:layout_marginEnd">@dimen/list_item_margin_large</item>
+    </style>
+
+    <style name="ListItemPriceStyle">
+        <item name="android:textSize">@dimen/list_item_price_text_size</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_marginStart">@dimen/list_item_margin_large</item>
+        <item name="android:layout_marginEnd">@dimen/list_item_margin_large</item>
+    </style>
+
+    <!-- Error message TextView Style -->
+    <style name="ErrorMessageStyle">
+        <item name="android:textSize">@dimen/error_message_text_size</item>
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:text">@string/error_message</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
 </resources>

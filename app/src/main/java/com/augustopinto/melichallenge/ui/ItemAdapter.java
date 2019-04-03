@@ -14,6 +14,7 @@ import com.augustopinto.melichallenge.model.SearchResultItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
@@ -31,7 +32,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         mListItems = new ArrayList<>();
     }
 
-    public void setList(ArrayList<SearchResultItem> list) {
+    public void setList(List<SearchResultItem> list) {
         mListItems.clear();
         mListItems.addAll(list);
         notifyDataSetChanged();

@@ -1,17 +1,19 @@
 package com.augustopinto.melichallenge.repository;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-
+import com.augustopinto.melichallenge.model.ItemData;
+import com.augustopinto.melichallenge.model.ItemDescription;
+import com.augustopinto.melichallenge.model.SearchResult;
 import com.augustopinto.melichallenge.model.SearchResultItem;
-import com.augustopinto.melichallenge.services.MeLiService;
-import com.augustopinto.melichallenge.services.RetrofitClient;
+import com.augustopinto.melichallenge.service.MeLiService;
+import com.augustopinto.melichallenge.service.RetrofitClient;
+import com.augustopinto.melichallenge.util.MutableLiveResource;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class SearchRepository {
 
@@ -29,21 +31,78 @@ public class SearchRepository {
         return mInstance;
     }
 
-    private LiveData<List<SearchResultItem>> getSearchResult(String key) {
-        final MutableLiveData<List<SearchResultItem>> data = new MutableLiveData<>();
+    public MutableLiveResource<List<SearchResultItem>> getSearchResult(String key) {
+        final MutableLiveResource resource = new MutableLiveResource();
+        resource.postLoading();
 
-        mService.getSearchResult("iphone").enqueue(new Callback<List<SearchResultItem>>() {
+        mService.getSearchResult(key).enqueue(new Callback<SearchResult>() {
             @Override
-            public void onResponse(Call<List<SearchResultItem>> call, Response<List<SearchResultItem>> response) {
-                data.postValue(response.body());
+            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+                Timber.d("getSearchResult onResponse");
+                if (response.isSuccessful() && response.body() != null) {
+                    resource.postSuccess(response.body().mResults);
+                } else {
+                    resource.postError(null);
+                }
             }
 
             @Override
-            public void onFailure(Call<List<SearchResultItem>> call, Throwable t) {
-                data.postValue(null);
+            public void onFailure(Call<SearchResult> call, Throwable t) {
+                Timber.e( "onFailure: %s", t.getMessage());
+                resource.postError(null);
             }
         });
 
-        return data;
+        return resource;
     }
+
+    public MutableLiveResource<ItemData> getItemDetails(String id) {
+        final MutableLiveResource resource = new MutableLiveResource();
+        resource.postLoading();
+
+        mService.getItemDetails(id).enqueue(new Callback<ItemData>() {
+            @Override
+            public void onResponse(Call<ItemData> call, Response<ItemData> response) {
+                Timber.d("getItemDetails onResponse");
+                if (response.isSuccessful() && response.body() != null) {
+                    resource.postSuccess(response.body());
+                } else {
+                    resource.postError(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemData> call, Throwable t) {
+                Timber.e("onFailure: %s", t.getMessage());
+                resource.postError(null);
+            }
+        });
+        return resource;
+    }
+
+    public MutableLiveResource<ItemDescription> getItemDescription(String id) {
+        final MutableLiveResource resource = new MutableLiveResource();
+        resource.postLoading();
+
+        mService.getItemDescription(id).enqueue(new Callback<ItemDescription>() {
+            @Override
+            public void onResponse(Call<ItemDescription> call, Response<ItemDescription> response) {
+                Timber.d("onResponse getItemDescription");
+                if (response.isSuccessful() && response.body() != null) {
+                    resource.postSuccess(response.body());
+                } else {
+                    resource.postError(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemDescription> call, Throwable t) {
+                Timber.e("onFailure: %s", t.getMessage());
+                resource.postError(null);
+            }
+        });
+
+        return resource;
+    }
+
 }
